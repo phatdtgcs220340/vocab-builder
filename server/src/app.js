@@ -18,6 +18,7 @@ app.use(cors({
 
 app.use('/api', router);
 app.use('/api', authenticateRouter)
+
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Vocab Builder DB Connected'))
