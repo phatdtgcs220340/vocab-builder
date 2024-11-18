@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import mongoose from "mongoose";
 import cors from 'cors'
 import router from '../api/routes/vocab-builder.route.js'
+import authenticateRouter from "../api/routes/authenticate.route.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(cors({
 }));
 
 app.use('/api', router);
-
+app.use('/api', authenticateRouter)
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Vocab Builder DB Connected'))
