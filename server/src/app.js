@@ -2,10 +2,12 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
 import cors from 'cors'
+import router from '../api/routes/vocab-builder.route.js'
 
 dotenv.config();
 
 const app = express();
+
 app.use(express.json());
 app.use(cors({
     origin: process.env.API_GATEWAY_URL,
@@ -13,16 +15,13 @@ app.use(cors({
     allowedHeaders: 'Content-Type, Authorization'
 }));
 
-app.get('/', async (req, res) => {
-    res.send('Hello from User Service');
-});
+app.use('/api', router);
 
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Vocab Builder DB Connected'))
     .catch(err => console.log(err));
 
-
-app.listen(4001, () => {
-    console.log('Server running on port 4001');
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
 });
