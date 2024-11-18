@@ -20,5 +20,5 @@ const VocabSchema = new Schema({
     collection : 'vocab'
 })
 
-module.exports = mongoose.model('Vocab', VocabSchema)
+export default mongoose.model('Vocab', VocabSchema)
 
