@@ -1,3 +1,6 @@
+import jwt from 'jsonwebtoken'
+import {apiLogger} from "../logger/logger.js";
+
 const validateRegistration = (req, res, next) => {
     const { username, fullName, password } = req.body;
 
@@ -21,4 +24,21 @@ const validateAuthentication = (req, res, next) => {
 
     next();
 };
-export { validateRegistration, validateAuthentication }
+
+const validateAccessToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Access token is missing or invalid' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(apiLogger(req), `Verified token ${token}`)
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: 'Invalid or expired access token' });
+    }
+}
+export { validateRegistration, validateAuthentication, validateAccessToken }

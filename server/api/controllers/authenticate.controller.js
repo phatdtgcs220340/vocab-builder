@@ -1,5 +1,6 @@
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
+import {apiLogger} from "../logger/logger.js";
 
 export const signUp = async (req, res) => {
     try {
@@ -13,10 +14,13 @@ export const signUp = async (req, res) => {
         const newUser = new User(req.body)
         await newUser.save();
 
+        console.log(apiLogger(req), `Created user with username : ${username}`)
+
         res.status(201).json({
             message: `Created user ${req.body.username}`
         })
     } catch (error) {
+        console.log(apiLogger(req), `Error ${error}`)
         res.status(500).json({
             message : error.message
         })
@@ -33,10 +37,10 @@ export const login = async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: 'Username or Password is incorrect' });
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        console.log("Logged user", user)
+        console.log(apiLogger(req), `Authenticated user : ${username}`)
         res.status(200).json({ token });
     } catch (error) {
-        console.log(error)
+        console.log(apiLogger(req), `Error ${error}`)
         res.status(500).json({
             message : error.message
         })
