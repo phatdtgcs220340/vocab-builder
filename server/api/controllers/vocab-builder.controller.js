@@ -27,7 +27,7 @@ export const create_a_word = async (req, res) => {
         await vocab.save()
         res.status(200).json(vocab);
     } catch (error) {
-        console.log(apiLogger(req), `Error: ${error}`)
+        console.error(apiLogger(req), `Error: ${error}`)
         res.status(500).json({
             message : error.message
         })

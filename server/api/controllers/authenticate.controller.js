@@ -20,7 +20,7 @@ export const signUp = async (req, res) => {
             message: `Created user ${req.body.username}`
         })
     } catch (error) {
-        console.log(apiLogger(req), `Error ${error}`)
+        console.error(apiLogger(req), `Error ${error}`)
         res.status(500).json({
             message : error.message
         })
@@ -40,7 +40,7 @@ export const login = async (req, res) => {
         console.log(apiLogger(req), `Authenticated user : ${username}`)
         res.status(200).json({ token });
     } catch (error) {
-        console.log(apiLogger(req), `Error ${error}`)
+        console.error(apiLogger(req), `Error ${error}`)
         res.status(500).json({
             message : error.message
         })
