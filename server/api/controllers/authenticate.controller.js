@@ -36,7 +36,11 @@ export const login = async (req, res) => {
         const isMatch = await user.comparePassword(password);
         if (!isMatch) return res.status(401).json({ message: 'Username or Password is incorrect' });
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({
+            id: user._id,
+            username : user.username,
+            fullName : user.fullName
+        }, process.env.JWT_SECRET, { expiresIn: '1h' });
         console.log(apiLogger(req), `Authenticated user : ${username}`)
         res.status(200).json({ token });
     } catch (error) {
