@@ -6,4 +6,6 @@ const router = express.Router()
 
 router.get('/ping', controller.ping)
 router.post('/create-a-word', validateAccessToken, controller.create_a_word)
+router.get('/find-all', validateAccessToken, controller.find_all_words)
+
 export default router

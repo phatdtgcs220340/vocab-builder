@@ -33,3 +33,21 @@ export const create_a_word = async (req, res) => {
         })
     }
 }
+
+export const find_all_words = async (req, res) => {
+    try {
+        const words = await Vocab.find({ userId : req.user.id })
+        console.log(apiLogger(req), "Fetching words...")
+        res.status(200).json(words.map(word => {
+            return {
+                english : word.english,
+                german : word.german
+            }
+        }))
+    } catch (error) {
+        console.error(apiLogger(req), `Error: ${error}`)
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}

@@ -16,7 +16,7 @@ app.use(cors({
     allowedHeaders: 'Content-Type, Authorization'
 }));
 
-app.use('/api', router);
+app.use('/api/vocab', router);
 app.use('/api', authenticateRouter)
 
 mongoose.set('strictQuery', true);
