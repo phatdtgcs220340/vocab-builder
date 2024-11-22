@@ -1,13 +1,12 @@
-<script>
-export default {
-  name: "Welcome"
-}
-</script>
-
 <template>
 
 </template>
+<script>
 
-<style scoped>
+export default {
+  name: "WelcomeComponent",
+  components: {
+  }
+}
 
-</style>
+</script>

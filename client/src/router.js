@@ -4,6 +4,7 @@ import Words from "@/views/Words.vue";
 import New from "@/views/New.vue";
 import Show from "@/views/Show.vue";
 import Test from "@/views/Test.vue";
+import Welcome from "@/views/Welcome.vue";
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
             path : '/words/:id',
             name : 'show',
             component : Show
+        },
+        {
+            path : '/welcome',
+            name : 'welcome',
+            component : Welcome
         },
         {
             path : '/test',
