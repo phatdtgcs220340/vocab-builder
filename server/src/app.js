@@ -23,7 +23,6 @@ mongoose.set('strictQuery', true);
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Vocab Builder DB Connected'))
     .catch(err => console.log(err));
-
-app.listen(3000, () => {
+app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on port 3000');
 });

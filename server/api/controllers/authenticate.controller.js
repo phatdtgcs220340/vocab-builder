@@ -2,6 +2,10 @@ import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 import {apiLogger} from "../logger/logger.js";
 
+export const ping = async (req, res) => {
+    res.status(200).send("The server works ok")
+}
+
 export const signUp = async (req, res) => {
     try {
         const userExisted = await User.findOne({ username: req.body.username })
@@ -14,7 +18,7 @@ export const signUp = async (req, res) => {
         const newUser = new User(req.body)
         await newUser.save();
 
-        console.log(apiLogger(req), `Created user with username : ${username}`)
+        console.log(apiLogger(req), `Created user with username : ${req.body.username}`)
 
         res.status(201).json({
             message: `Created user ${req.body.username}`

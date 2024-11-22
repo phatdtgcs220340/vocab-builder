@@ -1,10 +1,6 @@
 import Vocab from '../models/vocab-builder.model.js'
 import {apiLogger} from "../logger/logger.js";
 
-export const ping = async (req, res) => {
-    res.status(200).send("The server works ok")
-}
-
 export const create_a_word = async (req, res) => {
     try {
         const { english, german } = req.body
