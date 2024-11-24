@@ -5,6 +5,7 @@ import New from "@/views/New.vue";
 import Show from "@/views/Show.vue";
 import Test from "@/views/Test.vue";
 import Welcome from "@/views/Welcome.vue";
+import Edit from "@/views/Edit.vue";
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
             path : '/words/:id',
             name : 'show',
             component : Show
+        },
+        {
+            path : '/words/:id/edit',
+            name : 'edit',
+            component : Edit
         },
         {
             path : '/welcome',
