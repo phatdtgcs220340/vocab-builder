@@ -21,7 +21,7 @@ export const create_a_word = async (req, res) => {
 
         console.log(apiLogger(req), `Attempting to save new vocab\n`, vocab)
         await vocab.save()
-        res.status(200).json(vocab);
+        res.status(201).json(vocab);
     } catch (error) {
         console.error(apiLogger(req), `Error: ${error}`)
         res.status(500).json({
@@ -34,12 +34,49 @@ export const find_all_words = async (req, res) => {
     try {
         const words = await Vocab.find({ userId : req.user.id })
         console.log(apiLogger(req), "Fetching words...")
-        res.status(200).json(words.map(word => {
-            return {
-                english : word.english,
-                german : word.german
-            }
-        }))
+        res.status(200).json(words)
+    } catch (error) {
+        console.error(apiLogger(req), `Error: ${error}`)
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
+export const find_a_word_by_id = async (req, res) => {
+    try {
+        const word = await Vocab.findOne({ _id : req.params.id, userId : req.user.id })
+        console.log(apiLogger(req), `Fetching word ${word}`)
+        if (!word) {
+            return res.status(404).json({
+                message : "No word is found"
+            })
+        }
+        res.status(200).json(word)
+    } catch (error) {
+        console.error(apiLogger(req), `Error: ${error}`)
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
+export const update_a_word = async (req, res) => {
+    try {
+        const updatedWord = await Vocab.updateOne({
+            _id : req.params.id,
+            userId : req.user.id
+        }, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        console.log(apiLogger(req), `Updating word...`)
+
+        if (!updatedWord) {
+            return res.status(404).json({message: 'Word not found'});
+        }
+
+        res.status(200).json(updatedWord);
     } catch (error) {
         console.error(apiLogger(req), `Error: ${error}`)
         res.status(500).json({
