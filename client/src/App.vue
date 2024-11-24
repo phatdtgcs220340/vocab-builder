@@ -33,9 +33,15 @@
             <div v-if="isAuthenticated" class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Words</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">New</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Test</a>
+                <router-link :to="{ name : 'words' }">
+                <div class="rounded-md hover:bg-gray-900 px-3 py-2 text-sm font-medium text-white cursor-pointer">Words</div>
+                </router-link>
+                <router-link :to="{ name : 'new-word' }">
+                  <div class="rounded-md hover:bg-gray-900 px-3 py-2 text-sm font-medium text-white cursor-pointer">New</div>
+                </router-link>
+                <router-link :to="{ name : 'test' }">
+                  <div class="rounded-md hover:bg-gray-900 px-3 py-2 text-sm font-medium text-white cursor-pointer">Test</div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -213,7 +219,7 @@ export default {
   },
   async mounted() {
     const res = await api.authenticate(window.localStorage.getItem("vocab-access-token"));
-    if (res === 403) {
+    if (res.name === 'AxiosError') {
       await router.push('/welcome')
     } else {
       this.isAuthenticated = true
@@ -243,12 +249,10 @@ export default {
       this.signUpForm.pending = true
 
       const res = await api.signUp(this.signUpForm)
-      console.log(res)
       if (res.response?.data.message) {
         this.signUpForm.status.message = res.response.data.message
         this.signUpForm.status.color = 'text-red-400'
       } else {
-        console.log('cc')
         this.signUpForm.status.message = res.message
       }
       this.signUpForm.pending = false
