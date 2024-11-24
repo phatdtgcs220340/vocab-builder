@@ -4,5 +4,5 @@ export const apiLogger = (req) => {
     if (req.user) {
         username = req.user.username
     }
-    return `${currentTime} - [${req.originalUrl}]${username ? ' - [' + username + ']' : ''}`
+    return `${currentTime} - [${req.method}][${req.originalUrl}]${username ? ' - [' + username + ']' : ''}`
 }
