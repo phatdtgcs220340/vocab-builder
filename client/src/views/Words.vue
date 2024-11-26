@@ -31,9 +31,12 @@
               </div>
             </router-link>
           </div>
-
-          <div class="py-2 border-r-2 border-gray-700 w-full text-center cursor-pointer hover:bg-gray-200">Edit</div>
-          <div class="py-2 w-full text-center cursor-pointer hover:bg-gray-200">Delete</div>
+          <div class="w-full">
+            <router-link :to="{ name : 'edit', params : { id : word._id } }">
+              <div class="py-2 border-r-2 border-gray-700 text-center cursor-pointer hover:bg-gray-200">Edit</div>
+            </router-link>
+          </div>
+          <div class="py-2 w-full text-center cursor-pointer hover:bg-red-100 hover:text-red-400">Delete</div>
         </td>
       </tr>
       </tbody>

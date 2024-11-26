@@ -10,7 +10,7 @@ const handleForbiddenError = fn => (...params) =>
     })
 
 const handleError = fn => (...params) =>
-    fn(...params).catch(error =>  error)
+    fn(...params).catch(error => error)
 
 export const api = {
     login : handleError(async payload => {
@@ -36,7 +36,10 @@ export const api = {
     updateWord: handleForbiddenError(async (token, id, payload) => {
         const response = await axios.put(`${VOCAB_API}/${id}`, payload, authConfig(token))
         return response.data
-})
+    }),
+    createWord: handleForbiddenError(async (token, payload) => {
+        return await axios.post(`${VOCAB_API}`, payload, authConfig(token))
+    })
 }
 
 const authConfig = token => {
