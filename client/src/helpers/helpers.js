@@ -25,8 +25,8 @@ export const api = {
         const response = await axios.get(PING_API, authConfig(token))
         return response.data
     }),
-    findAllWords: handleForbiddenError(async (token) => {
-        const response = await axios.get(VOCAB_API, authConfig(token))
+    findAllWords: handleForbiddenError(async (token, page) => {
+        const response = await axios.get(`${VOCAB_API}?page=${page}`, authConfig(token))
         return response.data
     }),
     findWordById: handleForbiddenError(async (token, id) => {
