@@ -163,7 +163,7 @@
               -->
               <div :class="[!toggledAvatar ? 'hidden' : '']" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100 outline-none", Not Active: "" -->
-                <a @click="logout" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2 cursor-pointer">Sign out</a>
+                <button @click="logout" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2 cursor-pointer">Sign out</button>
               </div>
             </div>
           </div>
