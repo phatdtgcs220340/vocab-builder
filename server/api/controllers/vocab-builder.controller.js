@@ -32,9 +32,22 @@ export const create_a_word = async (req, res) => {
 
 export const find_all_words = async (req, res) => {
     try {
-        const words = await Vocab.find({ userId : req.user.id })
-        console.log(apiLogger(req), "Fetching words...")
-        res.status(200).json(words)
+        const { page = 1 } = req.query;
+
+        const skip = (page - 1) * 10;
+
+        const items = await Vocab.find()
+            .skip(Number(skip))
+            .limit(Number(10));
+
+        const totalItems = await Vocab.countDocuments();
+
+        res.json({
+            data: items,
+            currentPage: Number(page),
+            totalPages: Math.ceil(totalItems / 10),
+            totalItems,
+        });
     } catch (error) {
         console.error(apiLogger(req), `Error: ${error}`)
         res.status(500).json({
@@ -77,6 +90,35 @@ export const update_a_word = async (req, res) => {
         }
 
         res.status(200).json(updatedWord);
+    } catch (error) {
+        console.error(apiLogger(req), `Error: ${error}`)
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
+export const delete_a_word = async (req, res) => {
+    try {
+
+        const deletedWord = await Vocab.findOne({
+            _id : req.params.id,
+            userId : req.user.id
+        })
+
+        if (!deletedWord) {
+            return res.status(404).json({message: 'Word not found'});
+        }
+
+        await Vocab.deleteOne({
+            _id : req.params.id,
+            userId : req.user.id
+        })
+        console.log(apiLogger(req), `Deleting word...`)
+
+        res.status(200).json({
+            message : 'Successfully deleted'
+        });
     } catch (error) {
         console.error(apiLogger(req), `Error: ${error}`)
         res.status(500).json({
