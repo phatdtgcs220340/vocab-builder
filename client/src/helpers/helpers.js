@@ -39,6 +39,9 @@ export const api = {
     }),
     createWord: handleForbiddenError(async (token, payload) => {
         return await axios.post(`${VOCAB_API}`, payload, authConfig(token))
+    }),
+    deletedWord: handleForbiddenError(async (token, id) => {
+        return await axios.delete(`${VOCAB_API}/${id}`, authConfig(token))
     })
 }
 

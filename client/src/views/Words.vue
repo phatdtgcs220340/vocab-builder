@@ -1,5 +1,4 @@
 <template>
-
   <div class="relative h-screen overflow-x-auto shadow-md sm:rounded-lg flex flex-col items-center mt-10">
     <table class="w-2/3 text-sm text-left rtl:text-right">
       <thead class="text-xs text-white uppercase bg-gray-50 dark:bg-gray-800">
@@ -36,7 +35,7 @@
               <div class="py-2 border-r-2 border-gray-700 text-center cursor-pointer hover:bg-gray-200">Edit</div>
             </router-link>
           </div>
-          <div class="py-2 w-full text-center cursor-pointer hover:bg-red-100 hover:text-red-400">Delete</div>
+          <div @click="attemptedDeleteWord = word._id" class="py-2 w-full text-center cursor-pointer hover:bg-red-100 hover:text-red-400">Delete</div>
         </td>
       </tr>
       </tbody>
@@ -59,8 +58,23 @@
         </button>
       </nav>
     </div>
+    <div v-if="attemptedDeleteWord">
+      <div class="h-screen inset-0 bg-gray-700 fixed opacity-40">
+      </div>
+      <div class="h-screen inset-0 fixed flex justify-center items-center">
+        <div class="w-1/5 border-2 rounded-md shadow-md border-gray-500 h-1/3 bg-white flex items-center justify-center">
+          <div class="w-full flex flex-col items-center gap-5">
+            <svg width="150px" height="150px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#ff0000" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#ff5c5c" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 832a384 384 0 0 0 0-768 384 384 0 0 0 0 768zm48-176a48 48 0 1 1-96 0 48 48 0 0 1 96 0zm-48-464a32 32 0 0 1 32 32v288a32 32 0 0 1-64 0V288a32 32 0 0 1 32-32z"></path></g></svg>
+            <div class="font-medium text-lg">Are you sure to delete this word?</div>
+            <div class="flex justify-evenly w-full">
+              <div @click="deleteWord" class="px-8 py-2 border-2 border-gray-700 rounded-md font-medium bg-white hover:bg-gray-700 hover:text-white cursor-pointer">Yes</div>
+              <div @click="attemptedDeleteWord = ''" class="px-8 py-2 border-2 border-gray-700 rounded-md font-medium bg-white hover:bg-gray-700 hover:text-white cursor-pointer">No</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
 </template>
 <script>
 
@@ -75,7 +89,8 @@
       return {
         words: [],
         currentPage : 0,
-        totalPages: 0
+        totalPages: 0,
+        attemptedDeleteWord: ''
       }
     },
     watch: {
@@ -89,6 +104,16 @@
       this.words = fetchedWords.data
       this.currentPage = fetchedWords.currentPage
       this.totalPages = fetchedWords.totalPages
+    },
+    methods : {
+      async deleteWord() {
+        await api.deletedWord(window.localStorage.getItem("vocab-access-token"), this.attemptedDeleteWord)
+        const fetchedWords = await api.findAllWords(window.localStorage.getItem("vocab-access-token"), 1)
+        this.words = fetchedWords.data
+        this.currentPage = fetchedWords.currentPage
+        this.totalPages = fetchedWords.totalPages
+        this.attemptedDeleteWord = ''
+      }
     }
   }
 </script>
