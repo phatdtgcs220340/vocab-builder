@@ -36,7 +36,9 @@ export const find_all_words = async (req, res) => {
 
         const skip = (page - 1) * 10;
 
-        const items = await Vocab.find()
+        const items = await Vocab.find({
+            userId: req.user.id
+        })
             .skip(Number(skip))
             .limit(Number(10));
 
