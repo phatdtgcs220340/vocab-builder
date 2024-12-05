@@ -23,7 +23,7 @@
           {{ word.german }}
         </td>
         <td class="px-6 py-4 flex gap-1 justify-between">
-          <div class="py-2 border-r-2 border-gray-700 w-full hover:bg-gray-200">
+          <div class="py-2 border-r-2 border-gray-700 w-full hover:bg-green-200 hover:text-green-400">
             <router-link :to="{ name : 'show', params : { id : word._id } }">
               <div class="text-center cursor-pointer">
                 Show
@@ -32,7 +32,7 @@
           </div>
           <div class="w-full">
             <router-link :to="{ name : 'edit', params : { id : word._id } }">
-              <div class="py-2 border-r-2 border-gray-700 text-center cursor-pointer hover:bg-gray-200">Edit</div>
+              <div class="py-2 border-r-2 border-gray-700 text-center cursor-pointer hover:bg-blue-200 hover:text-blue-400">Edit</div>
             </router-link>
           </div>
           <div @click="attemptedDeleteWord = word._id" class="py-2 w-full text-center cursor-pointer hover:bg-red-100 hover:text-red-400">Delete</div>

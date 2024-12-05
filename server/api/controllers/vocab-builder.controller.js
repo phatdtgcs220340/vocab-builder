@@ -32,15 +32,15 @@ export const create_a_word = async (req, res) => {
 
 export const find_all_words = async (req, res) => {
     try {
-        const { page = 1 } = req.query;
+        const { page = 1, offset = 10 } = req.query;
 
-        const skip = (page - 1) * 10;
+        const skip = (page - 1) * offset;
 
         const items = await Vocab.find({
             userId: req.user.id
         })
             .skip(Number(skip))
-            .limit(Number(10));
+            .limit(Number(offset));
 
         const totalItems = await Vocab.countDocuments();
 
