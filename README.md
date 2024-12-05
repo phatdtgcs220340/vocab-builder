@@ -1,6 +1,6 @@
 # vocab-builder
 
-### I. For first time clone this repo
+### I. For the first time clone this repo
 #### 1.1 Download necessary dependencies 
 **Download server dependencies**
 ```
